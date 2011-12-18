@@ -3,3 +3,22 @@ Evolutionary Algorithms class, University of Wrocław.
 Authors:
 Michał Karpiński
 Maciek Pacut
+
+
+
+How to build:
+
+1. Go to ./src/
+2. Type: make all
+3. Run: ./evo.e -h
+4. Have fun
+
+Example:
+
+Use test-case t010, with operator OX and 1000 iterations. At the end report best specimen:
+
+./evo.e -i 1000 -x ox -r < ../in/010.in
+
+Documentation:
+
+Check ./doc/report.tex
