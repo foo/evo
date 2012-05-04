@@ -1,9 +1,9 @@
 error_flags = -Wall -Werror
-std_flag = -std=c++0x
-compiler = g++-4.4
-libs = -l boost_program_options
+std_flag = -std=c++11 -g
+compiler = g++-4.7
+libs = -l boost_program_options 
 
-modules = random.o permutation.o statistics.o mutation.o crossover.o sga.o flowshop.o problem.o
+modules = random.o permutation.o statistics.o mutation.o crossover.o sga.o multisga.o flowshop.o problem.o
 
 out = evo.e brute.e
 
@@ -26,7 +26,10 @@ crossover.o: crossover.cpp crossover.hpp
 
 sga.o: sga.cpp sga.hpp
 	$(compiler) $(error_flags) $(std_flag) -c sga.cpp -o sga.o
-
+	
+multisga.o: multisga.cpp multisga.hpp
+	$(compiler) $(error_flags) $(std_flag) -c multisga.cpp -o multisga.o
+	
 flowshop.o: flowshop.cpp flowshop.hpp
 	$(compiler) $(error_flags) $(std_flag) -c flowshop.cpp -o flowshop.o
 

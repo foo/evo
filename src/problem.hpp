@@ -6,6 +6,7 @@
 #include "statistics.hpp"
 #include "random.hpp"
 #include "sga.hpp"
+#include "multisga.hpp"
 #include "mutation.hpp"
 #include "crossover.hpp"
 #include "flowshop.hpp"

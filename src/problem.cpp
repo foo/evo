@@ -108,8 +108,8 @@ void mutation_function(population& p)
 }
 
 // used by random_shuffle
-ptrdiff_t randgenid (ptrdiff_t i) { return randid()%i;}
-ptrdiff_t (*p_randgenid)(ptrdiff_t) = randgenid;
+std::ptrdiff_t randgenid (std::ptrdiff_t i) { return randid()%i;}
+std::ptrdiff_t (*p_randgenid)(std::ptrdiff_t) = randgenid;
 
 void crossover_function(population& p)
 {
@@ -334,7 +334,7 @@ void solve_flowshop(config& c)
   
   init_prev_population();
 
-  sga algorithm;
+  multisga algorithm;
   algorithm.initial_population = initial_population;
   algorithm.evaluate = evaluate_population;
   algorithm.adaptation = adapt_population;
