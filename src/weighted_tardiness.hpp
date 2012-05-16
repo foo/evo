@@ -9,6 +9,7 @@ struct job
 {
   int deadline;
   int weight;
+  int processing_time;
 };
 
 struct weighted_tardiness
