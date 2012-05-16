@@ -2,6 +2,7 @@
 #include <vector>
 #include <functional>
 #include <cassert>
+#include <cstddef>
 
 #include "statistics.hpp"
 #include "random.hpp"

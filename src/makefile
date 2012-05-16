@@ -1,6 +1,6 @@
 error_flags = -Wall -Werror
 std_flag = -std=c++0x
-compiler = g++-4.4
+compiler = g++-4.6
 libs = -l boost_program_options
 
 modules = random.o permutation.o statistics.o mutation.o crossover.o sga.o flowshop.o problem.o

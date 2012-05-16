@@ -285,7 +285,7 @@ void report_end(population& p)
 
 void read_input()
 {
-  wt_problem.read_problem_instance;
+  wt_problem.read_problem_instance();
 }
 
 void solve_flowshop(config& c)
