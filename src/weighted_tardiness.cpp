@@ -2,7 +2,20 @@
 
 int weighted_tardiness::evaluate(const permutation& p) const
 {
-  return 1001;
+  int cost = 0;
+  int time = 0;
+  for(int i = 0; i < p.N(); ++i)
+  {
+    const int processing_job_no = p[i];
+    const job& processing_job = jobs[processing_job_no];
+
+    // process job
+    time += processing_job.processing_time;
+    const int delay = std::max(0, processing_job.deadline - time);
+    const int penalty = delay * processing_job.weight;
+    cost += penalty;
+  }
+  return cost;
 }
 
 job job::read_job_instance()
