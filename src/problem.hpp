@@ -8,7 +8,7 @@
 #include "sga.hpp"
 #include "mutation.hpp"
 #include "crossover.hpp"
-#include "flowshop.hpp"
+#include "weighted_tardiness.hpp"
 
 struct config
 {

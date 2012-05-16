@@ -10,8 +10,6 @@ int parents;
 
 float mutation_prob = 0.30f; // probability of mutation
 
-int N;  // number of jobs
-int M;  // number of machines
 int eval_count = 0;
 int xop_count = 3;
 int ox_count = 0;
@@ -22,14 +20,14 @@ long long x_count = 0;
 specimen best_specimen;
 int deviate_count = 0;
 
-flowshop f;
+weighted_tardiness wt_problem;
 
 void init_prev_population()
 {
   for(int i = 0; i < population_size; ++i)
   {
     specimen s;
-    s.perm = permutation(N);
+    s.perm = permutation(wt_problem.jobs.size());
     s.eval = s.adapt = 0.0;
     prev_population.push_back(s);
   }
@@ -38,7 +36,7 @@ void init_prev_population()
 float evaluation(const permutation& p)
 {
   eval_count++;
-  return f.cmax(p.P());
+  return wt_problem.evaluate(p);
 }
 
 void evaluate_population(population& p)
@@ -53,7 +51,7 @@ population initial_population()
   for(int i = 0; i < population_size; ++i)
   {
     specimen s;
-    s.perm = permutation(N, permutation::type::random);
+    s.perm = permutation(wt_problem.jobs.size(), permutation::type::random);
     s.eval = s.adapt = 0.0;
     pop.push_back(s);
   }
@@ -287,14 +285,7 @@ void report_end(population& p)
 
 void read_input()
 {
-  std::cin >> N;
-  std::cin >> M;
-
-  f.initialize(N,M);
-
-  for(int x = 0; x < M; ++x)
-    for(int y = 0; y < N; ++y)
-      std::cin >> f[x][y];
+  wt_problem.read_problem_instance;
 }
 
 void solve_flowshop(config& c)
