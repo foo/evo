@@ -26,7 +26,7 @@ po::options_description command_line_args_create()
   command_line_args.add_options()
     ("help,h", "Produce help message.")
     ("max-eval,i", po::value<int>()->default_value(1000), "Maximum number of evaluations.")
-    ("report-every,e", "Reports each permutations cmax")
+    ("report-every,e", po::value<int>(), "Reports best specimen of N evaluations")
     ;
   return command_line_args;
 }
@@ -66,6 +66,8 @@ int main(int argc, char* argv[])
     int best = f.cmax(best_p.P());
     int acc;
     int i = 0;
+    int best_of_N = f.cmax(best_p.P());
+    int report_every = command_line_args["report-every"].as<int>();
     while(i <= evals)
     {
       i++;
@@ -73,7 +75,15 @@ int main(int argc, char* argv[])
       acc = f.cmax(p.P());
     
       if(command_line_args.count("report-every"))
-        std::cout << i << ' ' << acc << "\n";
+      {
+        if(acc < best_of_N)
+          best_of_N = acc;
+        if(i != 0 && i % report_every == 0)
+        {
+          std::cout << i / report_every << ' ' << best_of_N << "\n";
+          best_of_N = INT_MAX;
+        }
+      }
 
       if(acc < best)
       {

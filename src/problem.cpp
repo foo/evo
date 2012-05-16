@@ -5,8 +5,8 @@ config cfg;
 int iter = 0;
 population prev_population;
 
-const int population_size = 200;
-const int parents = population_size / 2;
+int population_size;
+int parents;
 
 float mutation_prob = 0.30f; // probability of mutation
 
@@ -233,6 +233,14 @@ void report(population& p)
   {
     std::cout << iter << ' ' << statistics::variance(p) << '\n';
   }
+
+  if(cfg.ping_frequency > 0)
+  {
+    if(iter % cfg.ping_frequency == 0)
+    {
+      std::cout << iter << ", best: " << best_specimen.eval << '\n';
+    }
+  }
 }
 
 void report_end(population& p)
@@ -265,17 +273,14 @@ void report_end(population& p)
     {
       if(cfg.debug)
       {
-        std::cout << "Reporting number of iterations needed to compute best specimen with given optimum value or --max-iter if optimum is not reached\n";
+        std::cout << "Reporting number of evaluations needed to compute best specimen with given optimum value or --max-iter if optimum is not reached\n";
       }
-      std::cout << iter << "\n";
+      std::cout << population_size << ' ' << eval_count << "\n";
     }
 
     if(cfg.compare_operators)
     {
-      std::cout << "ox = " << ox_count << "\n";
-      std::cout << "cx = " << cx_count << "\n";
-      std::cout << "pmx = " << pmx_count << "\n";
-      std::cout << "crossovers = " << x_count << "\n";
+      std::cout << x_count << ' ' << ox_count << ' ' << cx_count << ' ' << pmx_count << "\n";
     }
   }
 }
@@ -295,6 +300,9 @@ void read_input()
 void solve_flowshop(config& c)
 {
   cfg = c;
+  
+  population_size = cfg.population_size;
+  parents = population_size / 2;
 
   if(cfg.seed == 0)
     init_random_based_on_time();

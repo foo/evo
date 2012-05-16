@@ -8,7 +8,7 @@ std::pair<permutation, permutation> crossover::random_crossover(crossover::type 
   int l = n/4;
   int r = randid() % (n-l);
   int s = r+l;
-
+  
   switch(t)
   {
     case OX:

@@ -28,18 +28,6 @@ in = ../in
 008.res: $(in)/008.in
 	$(program) -v -i 100 -x pmx < $< > $@
 
-100a.res: $(in)/100.in
-	$(program) -e avg -i 10000 -x pmx < $< > $@
-
-100b.res: $(in)/100.in
-	$(program) -e avg -i 10000 -x ox < $< > $@
-
-100c.res: $(in)/100.in
-	$(program) -e avg -i 10000 -x cx < $< > $@
-
-100.res: 100a.res 100b.res 100c.res
-	./joinN.sh 100a.res 100b.res 100c.res > $@
-
 001ao.res: $(in)/001.in
 	$(brute_force) -e -i 10000 < $< > $@
 
@@ -49,6 +37,8 @@ in = ../in
 001o.res: 001ao.res 001bo.res
 	./joinN.sh 001ao.res 001bo.res > $@
 
+001h.res: $(in)/001.in
+	$(program) -c -i 500 < $< > $@
 
 # here list tests which will be converted into graphs
 
@@ -58,9 +48,14 @@ graphs = 004.pdf 005.pdf 006.pdf 008.pdf
 
 graphsopt = 001o.pdf 002o.pdf
 
+histos = 001h.pdf
+
 # internals of automatic graph creation
 
-graphs: $(graphs) $(graphsopt)
+graphs: $(graphs) $(graphsopt) $(histos)
+
+%h.pdf: %h.res
+	./plot_histogram.sh $< $@
 
 %o.pdf: %o.res
 	./plot_graph_optimum.sh $< $@
@@ -97,7 +92,10 @@ clear: clear_tests clear_graphs clear_presentation
 
 # helper for setting execution permission
 
-used_scripts = count_graphs.sh joinN.sh plot_graph.sh plot_graph_optimum.sh
+used_scripts = *.sh
 script_permissions:
 	chmod +x $(used_scripts)
 
+report: report.pdf
+report.pdf: report.tex
+	pdflatex report.tex

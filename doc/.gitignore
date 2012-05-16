@@ -1,10 +1,13 @@
-presentation.pdf
-presentation.aux
-presentation.log
-presentation.nav
-presentation.out
-presentation.snm
-presentation.toc
-presentation.aux.swp
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.aux.swp
 *.res
 *.pdf
+
+# do not ignore:
+
+!plot?.pdf

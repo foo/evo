@@ -4,5 +4,5 @@ graphs=`./count_graphs.sh $1`
 file="graph"$graphs".gnuplot"
 gnuplot $file > tmp.eps
 epstopdf tmp.eps --outfile=$2
-rm tmp.eps
-rm graph.dat
+rm -f tmp.eps
+rm -f graph.dat

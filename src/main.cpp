@@ -31,10 +31,12 @@ po::options_description command_line_args_create()
     ("max-iter,i", po::value<int>()->default_value(1000), "Maximum number of iterations.")
     ("crossover,x", po::value<std::string>()->default_value("pmx"), "Crossover operators. Available: pmx, cx, ox")
     ("smart-termination,t", "Use termination condition that does not depend on --max-iter. Also overrides --max-iter")
-    ("optimum,o", po::value<int>(), "Program will not stop until it reaches given optimal value (or --max-iter). Also prints number of iterations.")
+    ("optimum,o", po::value<int>(), "Program will not stop until it reaches given optimal value (or --max-iter). Also prints number of evaluations.")
     ("report-var,v", "Similar to --report-every-frame, but instead best/avg specimen, it prints variance of each population.")
     ("compare-operators,c", "Executes program with special mode, in which crossover operation is selected randomly with each iteration. Returns statistical 'power' of each operator.")
     ("set-seed,S", po::value<int>(), "Sets random number seed.")
+    ("population-size,p", po::value<int>()->default_value(200), "Population size")
+    ("ping,a", po::value<int>()->default_value(0), "Gives sing that agorithm is still running fine by printing msg after each arg1 iterations.")
     ;
   return command_line_args;
 }
@@ -100,6 +102,16 @@ config interpret_cmd_line_arguments(const po::variables_map& command_line_args)
   else
     c.compare_operators = false;
   
+  if(command_line_args.count("population-size"))
+    c.population_size=command_line_args["population-size"].as<int>();
+  else
+    c.population_size=200;
+
+  if(command_line_args.count("ping"))
+    c.ping_frequency=command_line_args["ping"].as<int>();
+  else
+    c.ping_frequency=0;
+
   assert(command_line_args.count("max-iter"));
   c.max_iter = command_line_args["max-iter"].as<int>();
 
