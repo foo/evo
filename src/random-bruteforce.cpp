@@ -1,14 +1,13 @@
 #include <iostream>
 
 #include "random.hpp"
-#include "flowshop.hpp"
+#include "weighted_tardiness.hpp"
 #include "permutation.hpp"
 
 #include <boost/program_options.hpp>
 namespace po = boost::program_options;
 
-flowshop f;
-int N,M;
+weighted_tardiness wt_problem;
 
 po::variables_map read_command_line(po::options_description command_line_args_desc, int argc, char* argv[])
 {
@@ -34,14 +33,7 @@ po::options_description command_line_args_create()
 
 void read_input()
 {
-  std::cin >> N;
-  std::cin >> M;
-
-  f.initialize(N,M);
-
-  for(int x = 0; x < M; ++x)
-    for(int y = 0; y < N; ++y)
-      std::cin >> f[x][y];
+  wt_problem.read_problem_instance();
 }
 
 int main(int argc, char* argv[])
@@ -62,17 +54,17 @@ int main(int argc, char* argv[])
 
     int evals = command_line_args["max-eval"].as<int>() - 1;
 
-    permutation best_p(N, permutation::type::random);
-    int best = f.cmax(best_p.P());
+    permutation best_p(wt_problem.jobs.size(), permutation::type::random);
+    int best = wt_problem.evaluate(best_p);
     int acc;
     int i = 0;
-    int best_of_N = f.cmax(best_p.P());
+    int best_of_N = wt_problem.evaluate(best_p);
     int report_every = command_line_args["report-every"].as<int>();
     while(i <= evals)
     {
       i++;
-      permutation p(N, permutation::type::random);
-      acc = f.cmax(p.P());
+      permutation p(wt_problem.jobs.size(), permutation::type::random);
+      acc = wt_problem.evaluate(p);
     
       if(command_line_args.count("report-every"))
       {
