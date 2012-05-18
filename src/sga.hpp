@@ -2,6 +2,9 @@
 
 #include <vector>
 #include "permutation.hpp"
+#include "problem.hpp"
+
+
 
 struct specimen
 {
