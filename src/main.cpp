@@ -163,12 +163,42 @@ int main(int argc, char* argv[]) {
 
 		int threads_count = 4;
 		std::vector<std::thread> threads;
+		std::mutex mut;
+		std::vector<population> populations;
 
 		for (int i = 0; i < threads_count; i++) {
 			threads.push_back(
-					std::thread([cfg,wt]() {
+					std::thread([cfg,wt,&populations,&mut]() {
 				sga *s = new sga(cfg,wt);
-				s->solve_flowshop();
+
+				population p = s->solve_flowshop();
+				mut.lock();
+				populations.push_back(p);
+				mut.unlock();
+			}));
+		}
+		try {
+			for (std::thread& t : threads) {
+				t.join();
+			}
+		} catch (std::system_error & e) {
+			std::cout << "Error: thread joining" << std::endl;
+		}
+		//---------
+		std::cout << std::endl;
+		threads.clear();
+		for (int i = 0; i < threads_count; i++) {
+			threads.push_back(
+					std::thread([cfg,&populations,wt,&mut,i]() {
+				sga *s = new sga(cfg,wt);
+
+				mut.lock();
+				population p = populations[i];
+				mut.unlock();
+				s->solve_flowshop(p);
+				/*mut.lock();
+				populations.push_back(p);
+				mut.unlock();*/
 			}));
 		}
 		try {

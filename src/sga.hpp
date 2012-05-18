@@ -114,7 +114,9 @@ public:
 
 	void read_input();
 
-	void solve_flowshop();
+	population solve_flowshop();
+
+	population solve_flowshop(population pop);
 
 	void run();
 };

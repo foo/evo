@@ -260,17 +260,25 @@ void sga::report_end(population& p) {
 /*void sga::read_input() {
 	wt_problem.read_problem_instance();
 }*/
+population sga::solve_flowshop(){
+	population_size = cfg.population_size;
 
-void sga::solve_flowshop() {
+	if (cfg.seed == 0)
+			init_random_based_on_time();
+		else
+			init_random(cfg.seed);
 
+	init_prev_population();
+	return solve_flowshop(prev_population);
+}
+
+population sga::solve_flowshop(population pop) {
+	prev_population = pop;
 
 	population_size = cfg.population_size;
 	parents = population_size / 2;
 
-	if (cfg.seed == 0)
-		init_random_based_on_time();
-	else
-		init_random(cfg.seed);
+
 
 	if (cfg.debug) {
 		std::cout << "Crossover operator: ";
@@ -293,7 +301,7 @@ void sga::solve_flowshop() {
 
 	//read_input();
 
-	init_prev_population();
+
 
 	/*sga algorithm;
 	algorithm.initial_population = initial_population;
@@ -308,6 +316,7 @@ void sga::solve_flowshop() {
 	algorithm.report_end = report_end;
 	algorithm.run();*/
 	run();
+	return prev_population;
 }
 
 
