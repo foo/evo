@@ -5,8 +5,9 @@
 #include <boost/program_options.hpp>
 namespace po = boost::program_options;
 
-#include "problem.hpp"
+#include "sga.hpp"
 #include "crossover.hpp"
+
 
 
 po::variables_map read_command_line(po::options_description command_line_args_desc, int argc, char* argv[])
@@ -154,7 +155,8 @@ int main(int argc, char* argv[])
     }
 
     config cfg = interpret_cmd_line_arguments(command_line_args);
-    solve_flowshop(cfg);
+    sga *s = new sga(cfg);
+    s->solve_flowshop();
   }
   catch(std::exception& e)
   {

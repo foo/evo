@@ -1,7 +1,7 @@
 #pragma once
 
 #include "permutation.hpp"
-#include "sga.hpp"
+#include "population.hpp"
 
 namespace statistics
 {

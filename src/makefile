@@ -14,6 +14,7 @@ random.o: random.cpp random.hpp
 
 permutation.o: permutation.cpp permutation.hpp
 	$(compiler) $(error_flags) $(std_flag) -c permutation.cpp -o permutation.o
+	
 
 statistics.o: statistics.cpp statistics.hpp
 	$(compiler) $(error_flags) $(std_flag) -c statistics.cpp -o statistics.o
