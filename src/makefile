@@ -3,7 +3,7 @@ std_flag = -std=c++0x
 compiler = g++-4.6
 libs = -l boost_program_options
 
-modules = random.o permutation.o statistics.o mutation.o crossover.o sga.o weighted_tardiness.o problem.o
+modules = random.o permutation.o statistics.o mutation.o crossover.o sga.o weighted_tardiness.o 
 
 out = evo.e brute.e
 
@@ -30,9 +30,6 @@ sga.o: sga.cpp sga.hpp
 
 weighted_tardiness.o: weighted_tardiness.cpp weighted_tardiness.hpp
 	$(compiler) $(error_flags) $(std_flag) -c weighted_tardiness.cpp -o weighted_tardiness.o
-
-problem.o: problem.cpp problem.hpp
-	$(compiler) $(error_flags) $(std_flag) -c problem.cpp -o problem.o
 
 evo.e: main.cpp $(modules)
 	$(compiler) $(error_flags) $(std_flag) main.cpp $(modules) $(libs) -o evo.e

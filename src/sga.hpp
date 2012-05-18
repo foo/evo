@@ -7,7 +7,6 @@
 #include <cstddef>
 
 #include "permutation.hpp"
-#include "problem.hpp"
 
 #include "statistics.hpp"
 #include "random.hpp"
