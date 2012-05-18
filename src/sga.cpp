@@ -1,6 +1,6 @@
 #include "sga.hpp"
 
-sga::sga(config c) {
+sga::sga(config c, weighted_tardiness wt) {
 	cfg = c;
 	iter = 0;
 
@@ -15,6 +15,7 @@ sga::sga(config c) {
 
 	deviate_count = 0;
 
+	wt_problem = wt;
 }
 
 void sga::init_prev_population() {
@@ -256,9 +257,9 @@ void sga::report_end(population& p) {
 	}
 }
 
-void sga::read_input() {
+/*void sga::read_input() {
 	wt_problem.read_problem_instance();
-}
+}*/
 
 void sga::solve_flowshop() {
 
@@ -290,7 +291,7 @@ void sga::solve_flowshop() {
 	if (cfg.crossover_type == crossover::type::OX)
 		mutation_prob = 0.15f;
 
-	read_input();
+	//read_input();
 
 	init_prev_population();
 

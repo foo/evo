@@ -72,7 +72,7 @@ std::pair<permutation, permutation> crossover::cx(permutation& p1, permutation& 
 {
   std::vector<int> result1,result2;
   int n = p1.N();
-  int *cycle = new int[n];
+  int *cycle = new int[n]; //todo reserve memory during crossovers is rather bad idea ;)
   permutation rev_p1 = p1.reversed();
   
   memset(cycle,0,n*sizeof(int));

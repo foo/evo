@@ -73,7 +73,7 @@ public:
 	int deviate_count;
 
 	weighted_tardiness wt_problem;
-	sga(config c);
+	sga(config c, weighted_tardiness wt);
 
 	void init_prev_population();
 	float evaluation(const permutation& p);
