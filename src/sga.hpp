@@ -30,6 +30,9 @@ struct config {
 	int seed;
 	int population_size;
 	int ping_frequency;
+	int threads_count;
+	int phases_count;
+	float specimen_swap_pbb;
 };
 
 class sga {

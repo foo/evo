@@ -43,7 +43,10 @@ po::options_description command_line_args_create() {
 			"set-seed,S", po::value<int>(), "Sets random number seed.")(
 			"population-size,p", po::value<int>()->default_value(200),
 			"Population size")("ping,a", po::value<int>()->default_value(0),
-			"Gives sing that agorithm is still running fine by printing msg after each arg1 iterations.");
+			"Gives sing that agorithm is still running fine by printing msg after each arg1 iterations.")
+			("threads,T",po::value<int>()->default_value(2),"Number of threads.")
+			("phases,P",po::value<int>()->default_value(10),"Number of phases. Evolution is split to different threads during each phase (no effect when threads=1)")
+			("swap-pbb,b",po::value<float>()->default_value(0.5),"Probability of swapping two specimen in different populations.");
 	return command_line_args;
 }
 
@@ -62,6 +65,21 @@ config interpret_cmd_line_arguments(
 		c.crossover_type = crossover::type::CX;
 	else
 		throw std::runtime_error("Crossover operator unspecified.");
+
+	if(command_line_args.count("threads"))
+		c.threads_count = command_line_args["threads"].as<int>();
+	else
+		c.threads_count = 2;
+
+	if(command_line_args.count("phases"))
+		c.phases_count = command_line_args["phases"].as<int>();
+	else
+		c.phases_count = 10;
+
+	if(command_line_args.count("swap-pbb"))
+		c.specimen_swap_pbb = command_line_args["swap-pbb"].as<float>();
+	else
+		c.specimen_swap_pbb = 0.5;
 
 	if (command_line_args.count("debug"))
 		c.debug = true;
@@ -145,13 +163,15 @@ void read_cmd_params(int argc, char* argv[]) {
 }
 
 void run_evolutions(config& cfg, weighted_tardiness& wt) {
-	int threads_count = 4;
-	int merge_count = 10;
+	/*int threads_count = 4;
+	int phases_count = 10;
+	float specimen_swap_pbb = 0.4;*/
+
 	std::vector < std::thread > threads;
 	std::mutex mut;
 	std::vector < population > populations;
-	for (int j = 0; j < merge_count; j++) {
-		for (int i = 0; i < threads_count; i++) {
+	for (int j = 0; j < cfg.phases_count; j++) {
+		for (int i = 0; i < cfg.threads_count; i++) {
 			threads.push_back(
 					std::thread([cfg, wt, &populations, &mut, i, j]() {
 						sga* s = new sga(cfg, wt);
@@ -178,8 +198,8 @@ void run_evolutions(config& cfg, weighted_tardiness& wt) {
 		}
 		std::cout << std::endl;
 		threads.clear();
-		for (int i = 0; i < threads_count - 1; i++) {
-			specimen_rand_swap(populations[i], populations[i + 1], 0.0);
+		for (int i = 0; i < cfg.threads_count - 1; i++) {
+			specimen_rand_swap(populations[i], populations[i + 1], cfg.specimen_swap_pbb);
 		}
 	}
 
@@ -201,7 +221,12 @@ int main(int argc, char* argv[]) {
 
 		weighted_tardiness wt;
 		wt.read_problem_instance();
-		run_evolutions(cfg, wt);
+
+		if(cfg.threads_count < 2){
+			sga s(cfg, wt);
+			s.solve_flowshop();
+		}else
+			run_evolutions(cfg, wt);
 
 
 	} catch (std::exception& e) {
