@@ -57,3 +57,4 @@ int statistics::variance( const population& p )
   return v;
 }
 
+

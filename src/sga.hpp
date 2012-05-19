@@ -9,8 +9,6 @@
 #include "permutation.hpp"
 
 #include "statistics.hpp"
-#include "random.hpp"
-#include "population.hpp"
 #include "mutation.hpp"
 #include "crossover.hpp"
 #include "weighted_tardiness.hpp"

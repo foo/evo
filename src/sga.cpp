@@ -327,7 +327,6 @@ population sga::run(population p)
   evaluate_population(p);
   while(!termination(p))
   {
-	  //std::cout << p;
     adapt_population(p);
     crossover_function(p);
     adapt_population(p);

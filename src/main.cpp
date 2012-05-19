@@ -144,6 +144,47 @@ void read_cmd_params(int argc, char* argv[]) {
 	}
 }
 
+void run_evolutions(config& cfg, weighted_tardiness& wt) {
+	int threads_count = 4;
+	int merge_count = 10;
+	std::vector < std::thread > threads;
+	std::mutex mut;
+	std::vector < population > populations;
+	for (int j = 0; j < merge_count; j++) {
+		for (int i = 0; i < threads_count; i++) {
+			threads.push_back(
+					std::thread([cfg, wt, &populations, &mut, i, j]() {
+						sga* s = new sga(cfg, wt);
+						population p;
+						if (j == 0) {
+							p = s->solve_flowshop();
+							mut.lock();
+							populations.push_back(p);
+							mut.unlock();
+						} else {
+							p = populations[i];
+							p = s->solve_flowshop(p);
+							populations[i] = p;
+						}
+					}));
+		}
+
+		try {
+			for (std::thread& t : threads) {
+				t.join();
+			}
+		} catch (std::system_error& e) {
+			std::cout << "Error: thread joining" << std::endl;
+		}
+		std::cout << std::endl;
+		threads.clear();
+		for (int i = 0; i < threads_count - 1; i++) {
+			specimen_rand_swap(populations[i], populations[i + 1], 0.0);
+		}
+	}
+
+}
+
 int main(int argc, char* argv[]) {
 	try {
 		po::options_description command_line_args_desc =
@@ -160,69 +201,8 @@ int main(int argc, char* argv[]) {
 
 		weighted_tardiness wt;
 		wt.read_problem_instance();
+		run_evolutions(cfg, wt);
 
-		int threads_count = 4;
-		int merge_count = 10;
-		std::vector<std::thread> threads;
-		std::mutex mut;
-		std::vector<population> populations;
-
-		for(int j=0; j < merge_count; j++){
-			for (int i = 0; i < threads_count; i++) {
-				threads.push_back(
-						std::thread([cfg,wt,&populations,&mut,i,j]() {
-					sga *s = new sga(cfg,wt);
-					population p;
-					if(j==0){
-						p= s->solve_flowshop();
-						mut.lock();
-						populations.push_back(p);
-						mut.unlock();
-					}else{
-						p = populations[i];
-						p= s->solve_flowshop(p);
-						populations[i] = p;
-					}
-
-				}));
-			}
-			try {
-				for (std::thread& t : threads) {
-					t.join();
-				}
-			} catch (std::system_error & e) {
-				std::cout << "Error: thread joining" << std::endl;
-			}
-			std::cout << std::endl;
-			threads.clear();
-
-			for(int i=0; i<threads_count-1; i++){
-				specimen_rand_swap(populations[i],populations[i+1], 0.0);
-			}
-		}
-		//---------
-		/*std::cout << std::endl;
-		threads.clear();
-		for (int i = 0; i < threads_count; i++) {
-			threads.push_back(
-					std::thread([cfg,&populations,wt,&mut,i]() {
-				sga *s = new sga(cfg,wt);
-
-				mut.lock();
-				//std::cout << "pop[1]" << populations[0][1].perm << " " << i << std::endl;
-				population p = populations[i];
-				mut.unlock();
-				s->solve_flowshop(p);
-
-			}));
-		}
-		try {
-			for (std::thread& t : threads) {
-				t.join();
-			}
-		} catch (std::system_error & e) {
-			std::cout << "Error: thread joining" << std::endl;
-		}*/
 
 	} catch (std::exception& e) {
 		std::cerr << "Error: " << e.what() << "\n";

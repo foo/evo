@@ -1,6 +1,5 @@
 #pragma once
 
-#include "permutation.hpp"
 #include "population.hpp"
 
 namespace statistics

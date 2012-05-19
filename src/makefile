@@ -3,7 +3,7 @@ std_flag = -std=c++0x
 compiler = g++-4.6
 libs = -l boost_program_options
 
-modules = random.o permutation.o statistics.o mutation.o crossover.o sga.o weighted_tardiness.o 
+modules = random.o permutation.o population.o statistics.o mutation.o crossover.o sga.o weighted_tardiness.o 
 
 out = evo.e brute.e
 
@@ -15,6 +15,8 @@ random.o: random.cpp random.hpp
 permutation.o: permutation.cpp permutation.hpp
 	$(compiler) $(error_flags) $(std_flag) -c permutation.cpp -o permutation.o
 	
+population.o: population.cpp population.hpp
+	$(compiler) $(error_flags) $(std_flag) -c population.cpp -o population.o
 
 statistics.o: statistics.cpp statistics.hpp
 	$(compiler) $(error_flags) $(std_flag) -c statistics.cpp -o statistics.o

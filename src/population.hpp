@@ -1,6 +1,3 @@
-#ifndef POPULATION_HPP_
-#define POPULATION_HPP_
-
 #include "permutation.hpp"
 
 struct specimen {
@@ -19,15 +16,6 @@ struct specimen {
 
 typedef std::vector<specimen> population;
 
-void specimen_rand_swap(population& a, population& b, float pbb){
-	int treshold = (int)(pbb*(float)RAND_MAX);
-	for(unsigned i = 0; i < a.size(); i++)
-		if(rand() < treshold){
-			std::swap(a[i],b[i]);
-			/*tmp = a[i];
-			a[i]=b[i];
-			b[i] = tmp;*/
-		}
-}
+void specimen_rand_swap(population& a, population& b, float pbb);
 
-#endif
+
