@@ -118,5 +118,5 @@ public:
 
 	population solve_flowshop(population pop);
 
-	void run();
+	population run(population p);
 };

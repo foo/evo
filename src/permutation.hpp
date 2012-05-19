@@ -53,7 +53,6 @@ public:
   int operator[](int n) const { return perm.at(n); }
   int elem_position(const int v) const;
   void transpose(const int a, const int b);
-  void rand_swap(permutation& p,float pbb);
   friend std::ostream& operator << (std::ostream& os, const permutation& p);
   permutation reversed() const;
 };

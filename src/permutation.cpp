@@ -99,13 +99,4 @@ permutation permutation::reversed() const
   return p;
 }
 
-void permutation::rand_swap(permutation& p, float pbb){
-	int treshold = (int)(pbb*(float)RAND_MAX);
-	int tmp;
-	for(int i = 0; i < N(); i++)
-		if(rand() < treshold){
-			tmp = perm[i];
-			perm[i]=p.perm[i];
-			p.perm[i] = tmp;
-		}
-}
+

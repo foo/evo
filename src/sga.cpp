@@ -46,8 +46,8 @@ population sga::initial_population() {
 		pop.push_back(s);
 	}
 
-	best_specimen = pop[0];
-	best_specimen.eval = evaluation(pop[0].perm);
+	//best_specimen = pop[0];
+	//best_specimen.eval = evaluation(pop[0].perm);
 
 	return pop;
 }
@@ -262,23 +262,17 @@ void sga::report_end(population& p) {
 }*/
 population sga::solve_flowshop(){
 	population_size = cfg.population_size;
-
-	if (cfg.seed == 0)
-			init_random_based_on_time();
-		else
-			init_random(cfg.seed);
-
-	init_prev_population();
-	return solve_flowshop(prev_population);
+	population p = initial_population();
+	return solve_flowshop(p);
 }
 
 population sga::solve_flowshop(population pop) {
-	prev_population = pop;
 
 	population_size = cfg.population_size;
 	parents = population_size / 2;
 
-
+	best_specimen = pop[0];
+	best_specimen.eval = evaluation(pop[0].perm);
 
 	if (cfg.debug) {
 		std::cout << "Crossover operator: ";
@@ -300,7 +294,7 @@ population sga::solve_flowshop(population pop) {
 		mutation_prob = 0.15f;
 
 	//read_input();
-
+	//init_prev_population();
 
 
 	/*sga algorithm;
@@ -315,17 +309,25 @@ population sga::solve_flowshop(population pop) {
 	algorithm.report = report;
 	algorithm.report_end = report_end;
 	algorithm.run();*/
-	run();
-	return prev_population;
+
+	return run(pop);
 }
 
-
-void sga::run()
+/*std::ostream& operator << (std::ostream& os, const population& p)
 {
-  population p = initial_population();
+  os << "---------- " << std::endl;
+  for(auto i = p.begin(); i != p.end(); ++i)
+    os << (*i).perm << std::endl;
+  os << "----------" << std::endl;
+  return os;
+}*/
+
+population sga::run(population p)
+{
   evaluate_population(p);
   while(!termination(p))
   {
+	  //std::cout << p;
     adapt_population(p);
     crossover_function(p);
     adapt_population(p);
@@ -336,4 +338,5 @@ void sga::run()
     report(p);
   }
   report_end(p);
+  return p;
 }
