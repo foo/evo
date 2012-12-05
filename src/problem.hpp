@@ -8,7 +8,7 @@
 #include "sga.hpp"
 #include "mutation.hpp"
 #include "crossover.hpp"
-#include "flowshop.hpp"
+#include "sdvrp.hpp"
 
 struct config
 {
@@ -31,4 +31,4 @@ struct config
   int ping_frequency;
 };
 
-void solve_flowshop(config& cfg);
+void solve_sdvrp(config& cfg);

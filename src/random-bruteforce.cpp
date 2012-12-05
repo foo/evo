@@ -1,13 +1,13 @@
 #include <iostream>
 
 #include "random.hpp"
-#include "flowshop.hpp"
+#include "sdvrp.hpp"
 #include "permutation.hpp"
 
 #include <boost/program_options.hpp>
 namespace po = boost::program_options;
 
-flowshop f;
+sdvrp f;
 int N,M;
 
 po::variables_map read_command_line(po::options_description command_line_args_desc, int argc, char* argv[])

@@ -22,7 +22,7 @@ long long x_count = 0;
 specimen best_specimen;
 int deviate_count = 0;
 
-flowshop f;
+sdvrp f;
 
 void init_prev_population()
 {
@@ -297,7 +297,7 @@ void read_input()
       std::cin >> f[x][y];
 }
 
-void solve_flowshop(config& c)
+void solve_sdvrp(config& c)
 {
   cfg = c;
   

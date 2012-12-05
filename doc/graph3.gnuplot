@@ -9,4 +9,4 @@ set label 2 'OX' at graph 0.8, graph 0.8 tc rgb "orange"
 set label 3 'CX' at graph 0.8, graph 0.7 tc rgb "green"
 plot 'graph.dat' using 1:2 notitle with lines ls 1, \
      'graph.dat' using 1:3 notitle with lines ls 2, \
-     'graph.dat' using 1:4 notitle with lines ls 3,
+     'graph.dat' using 1:4 notitle with lines ls 3

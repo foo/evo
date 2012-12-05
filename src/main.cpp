@@ -154,7 +154,7 @@ int main(int argc, char* argv[])
     }
 
     config cfg = interpret_cmd_line_arguments(command_line_args);
-    solve_flowshop(cfg);
+    solve_sdvrp(cfg);
   }
   catch(std::exception& e)
   {
