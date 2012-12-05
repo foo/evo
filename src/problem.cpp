@@ -28,7 +28,7 @@ void init_prev_population()
   for(int i = 0; i < population_size; ++i)
   {
     specimen s;
-    s.perm = permutation(N);
+    s.perm = permutation(N - 1);
     s.eval = s.adapt = 0.0;
     prev_population.push_back(s);
   }
