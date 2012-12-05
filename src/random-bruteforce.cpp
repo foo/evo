@@ -32,16 +32,16 @@ po::options_description command_line_args_create()
 }
 
 
+
 void read_input()
 {
   std::cin >> N;
-  std::cin >> M;
 
-  f.initialize(N,M);
+  f.initialize(N);
 
-  for(int x = 0; x < M; ++x)
-    for(int y = 0; y < N; ++y)
-      std::cin >> f[x][y];
+  for(int row = 0; row < N; ++row)
+    for(int col = 0; col < N; ++col)
+      std::cin >> f[row][col];
 }
 
 int main(int argc, char* argv[])

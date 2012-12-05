@@ -10,8 +10,7 @@ int parents;
 
 float mutation_prob = 0.30f; // probability of mutation
 
-int N;  // number of jobs
-int M;  // number of machines
+int N;  // number of graph vertices
 int eval_count = 0;
 int xop_count = 3;
 int ox_count = 0;
@@ -288,13 +287,12 @@ void report_end(population& p)
 void read_input()
 {
   std::cin >> N;
-  std::cin >> M;
 
-  f.initialize(N,M);
+  f.initialize(N);
 
-  for(int x = 0; x < M; ++x)
-    for(int y = 0; y < N; ++y)
-      std::cin >> f[x][y];
+  for(int row = 0; row < N; ++row)
+    for(int col = 0; col < N; ++col)
+      std::cin >> f[row][col];
 }
 
 void solve_sdvrp(config& c)
