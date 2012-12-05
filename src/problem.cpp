@@ -38,7 +38,7 @@ void init_prev_population()
 float evaluation(const permutation& p)
 {
   eval_count++;
-  return f.cmax(p.P());
+  return f.route_cost(p.P());
 }
 
 void evaluate_population(population& p)

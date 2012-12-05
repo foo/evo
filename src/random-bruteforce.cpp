@@ -63,16 +63,16 @@ int main(int argc, char* argv[])
     int evals = command_line_args["max-eval"].as<int>() - 1;
 
     permutation best_p(N, permutation::type::random);
-    int best = f.cmax(best_p.P());
+    int best = f.route_cost(best_p.P());
     int acc;
     int i = 0;
-    int best_of_N = f.cmax(best_p.P());
+    int best_of_N = f.route_cost(best_p.P());
     int report_every = command_line_args["report-every"].as<int>();
     while(i <= evals)
     {
       i++;
       permutation p(N, permutation::type::random);
-      acc = f.cmax(p.P());
+      acc = f.route_cost(p.P());
     
       if(command_line_args.count("report-every"))
       {
