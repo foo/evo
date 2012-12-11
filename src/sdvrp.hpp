@@ -5,7 +5,8 @@
 #include <iostream>
 #include <assert.h>
 #include <string.h>
-#include <math.h>
+#include <cmath>
+#include <climits>
 
 class sdvrp
 {

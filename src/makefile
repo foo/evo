@@ -1,4 +1,4 @@
-error_flags = -Wall -Werror
+error_flags = -Wall -Werror -g -O0
 std_flag = -std=c++0x
 compiler = g++-4.4
 libs = -l boost_program_options
