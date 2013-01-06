@@ -8,7 +8,7 @@ else
   
   cities.times do
     cities.times do
-      print "#{rand(2)+1} "
+      print "#{rand(120)+1} "
     end
     print "\n"
   end
