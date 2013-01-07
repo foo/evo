@@ -18,7 +18,7 @@ echo "	../src/evo.e -e avg -i ${iter} -x pmx -p 100 < $< > \$@" >> makefile.tmp
 echo "${num}o.res: ${num}ao.res ${num}bo.res" >> makefile.tmp
 echo "	./joinN.sh ${num}ao.res ${num}bo.res > \$@" >> makefile.tmp
 echo "${num}o.pdf: ${num}o.res" >> makefile.tmp
-echo "	./plot_graph_optimum.sh $< \$@" >> makefile.tmp
+echo "	./plot_graph.sh $< \$@" >> makefile.tmp
 
 make ${num}o.pdf -f makefile.tmp
 rm makefile.tmp
